@@ -1,66 +1,47 @@
+"use client"
+
 import Image from 'next/image'
 import Link from 'next/link'
 import ExpandingArrow from '@/components/expanding-arrow'
 import Uploader from '@/components/uploader'
-import { Toaster } from '@/components/toaster'
+import {Toaster} from '@/components/toaster'
+import useListObjects from "@/hooks/useListObjects";
+import useDeleteObject from "@/hooks/useDeleteObject";
 
 export default function Home() {
-  return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center">
-      <Toaster />
-      <Link
-        href="https://vercel.com/templates/next.js/blob-starter"
-        className="group mt-20 sm:mt-0 rounded-full flex space-x-1 bg-white/30 shadow-sm ring-1 ring-gray-900/5 text-gray-600 text-sm font-medium px-10 py-2 hover:shadow-lg active:shadow-sm transition-all"
-      >
-        <p>Deploy your own to Vercel</p>
-        <ExpandingArrow />
-      </Link>
-      <h1 className="pt-4 pb-8 bg-gradient-to-br from-black via-[#171717] to-[#575757] bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl">
-        Blob on Vercel
-      </h1>
-      <div className="bg-white/30 p-12 shadow-xl ring-1 ring-gray-900/5 rounded-lg backdrop-blur-lg max-w-xl mx-auto w-full">
-        <Uploader />
-      </div>
-      <p className="font-light text-gray-600 w-full max-w-lg text-center mt-6">
-        <Link
-          href="https://vercel.com/blob"
-          className="font-medium underline underline-offset-4 hover:text-black transition-colors"
-        >
-          Vercel Blob
-        </Link>{' '}
-        demo. Built with{' '}
-        <Link
-          href="https://nextjs.org/docs"
-          className="font-medium underline underline-offset-4 hover:text-black transition-colors"
-        >
-          Next.js App Router
-        </Link>
-        .
-      </p>
-      <div className="sm:absolute sm:bottom-0 w-full px-20 py-10 flex justify-between">
-        <Link href="https://vercel.com">
-          <Image
-            src="/vercel.svg"
-            alt="Vercel Logo"
-            width={100}
-            height={24}
-            priority
-          />
-        </Link>
-        <Link
-          href="https://github.com/vercel/examples/tree/main/storage/blob-starter"
-          className="flex items-center space-x-2"
-        >
-          <Image
-            src="/github.svg"
-            alt="GitHub Logo"
-            width={24}
-            height={24}
-            priority
-          />
-          <p className="font-light">Source</p>
-        </Link>
-      </div>
-    </main>
-  )
+    const {objects, loading, error, reload} = useListObjects()
+    const {deleteObject} = useDeleteObject()
+    return (
+        <main className="relative flex min-h-screen flex-col items-center justify-center">
+            <Toaster/>
+            <h1 className="pt-4 pb-8 bg-gradient-to-br from-black via-[#171717] to-[#575757] bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl">
+                Trabajo Práctico 3
+            </h1>
+            <div
+                className="bg-white/30 p-12 shadow-xl ring-1 ring-gray-900/5 rounded-lg backdrop-blur-lg max-w-xl mx-auto w-full">
+                <Uploader callback={reload}/>
+            </div>
+            <div
+                className="bg-white/30 p-12 shadow-xl ring-1 ring-gray-900/5 rounded-lg backdrop-blur-lg max-w-xl mx-auto w-full mt-4">
+                {/* List of objects with a delete button and a view button */}
+                <div className="space-y-1 mb-4">
+                    <h2 className="text-xl font-semibold">Archivos subidos</h2>
+                    {!error && loading && <p>Cargando...</p>}
+                    {error && <p>Error</p>}
+                    {!error && !loading && objects && objects.length === 0 && <p>No hay archivos</p>}
+                    {objects && objects.length > 0 && objects.map((object: any) => (
+                        <div className="flex items-center justify-between" key={object.pathname}>
+                            <div className="flex items-center space-x-4">
+                                <div className="flex flex-row">
+                                    <Link className="text-sm font-semibold text-blue-500 mr-2" href={object.url} target="_blank">Ver</Link>
+                                    <span className="text-sm font-semibold text-red-500 mr-2" onClick={() => deleteObject(object.url)}>Borrar</span>
+                                    <span className="text-sm font-semibold">{object.pathname}</span>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </main>
+    )
 }
