@@ -33,8 +33,10 @@ export default function Home() {
                         <div className="flex items-center justify-between" key={object.pathname}>
                             <div className="flex items-center space-x-4">
                                 <div className="flex flex-row">
-                                    <Link className="text-sm font-semibold text-blue-500 mr-2" href={object.url} target="_blank">Ver</Link>
-                                    <span className="text-sm font-semibold text-red-500 mr-2" onClick={() => deleteObject(object.url)}>Borrar</span>
+                                    <Link className="text-sm font-semibold text-blue-500 mr-2 cursor-pointer" href={object.url} target="_blank">Ver</Link>
+                                    <span className="text-sm font-semibold text-red-500 mr-2 cursor-pointer" onClick={() => {
+                                        deleteObject(object.url).then(() => reload())
+                                    }}>Borrar</span>
                                     <span className="text-sm font-semibold">{object.pathname}</span>
                                 </div>
                             </div>

@@ -1,4 +1,5 @@
 import toast from "react-hot-toast";
+import useListObjects from "@/hooks/useListObjects";
 
 const useDeleteObject = () => {
     const deleteObject = async (url) => {
@@ -41,6 +42,7 @@ const useDeleteObject = () => {
         } catch (err) {
             toast.error("Error al borrar el archivo")
             console.log(err);
+            throw new Error(err);
         }
     }
 
