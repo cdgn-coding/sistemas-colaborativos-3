@@ -7,6 +7,7 @@ import Uploader from '@/components/uploader'
 import {Toaster} from '@/components/toaster'
 import useListObjects from "@/hooks/useListObjects";
 import useDeleteObject from "@/hooks/useDeleteObject";
+import LoadingDots from "@/components/loading-dots";
 
 export default function Home() {
     const {objects, loading, error, reload} = useListObjects()
@@ -33,11 +34,22 @@ export default function Home() {
                         <div className="flex items-center justify-between" key={object.pathname}>
                             <div className="flex items-center space-x-4">
                                 <div className="flex flex-row">
-                                    <Link className="text-sm font-semibold text-blue-500 mr-2 cursor-pointer" href={object.url} target="_blank">Ver</Link>
-                                    <span className="text-sm font-semibold text-red-500 mr-2 cursor-pointer" onClick={() => {
-                                        deleteObject(object.url).then(() => reload())
-                                    }}>Borrar</span>
-                                    <span className="text-sm font-semibold">{object.pathname}</span>
+                                    <button
+                                        className="align-middle mr-2 p-2 border-black bg-black text-white hover:bg-white hover:text-black flex items-center justify-center rounded-md border text-sm transition-all focus:outline-none"
+                                    >
+                                        <Link className="text-sm" href={object.url} target="_blank">Ver</Link>
+                                    </button>
+                                    <button
+                                        className="align-middle mr-2 p-1 border-black bg-black text-white hover:bg-white hover:text-black flex items-center justify-center rounded-md border text-sm transition-all focus:outline-none"
+                                        onClick={() => {
+                                            deleteObject(object.url).then(() => reload())
+                                        }}
+                                    >
+                                        <p className="text-sm">Borrar</p>
+                                    </button>
+                                    <div className="align-middle flex">
+                                        <span className="leading-10 text-sm font-semibold ">{object.pathname}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
