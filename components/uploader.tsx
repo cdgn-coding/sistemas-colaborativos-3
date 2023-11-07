@@ -100,7 +100,7 @@ export default function Uploader({ callback }: { callback?: () => void }) {
     >
       <div>
         <div className="space-y-1 mb-4">
-          <h2 className="text-xl font-semibold">Seleccionar archivo</h2>
+          <h2 className="text-2xl font-semibold">Seleccionar archivo</h2>
         </div>
         <label
           htmlFor="image-upload"
@@ -180,7 +180,7 @@ export default function Uploader({ callback }: { callback?: () => void }) {
         className={`${
           saveDisabled
             ? 'cursor-not-allowed border-gray-200 bg-gray-100 text-gray-400'
-            : 'border-black bg-black text-white hover:bg-white hover:text-black'
+            : 'border-black bg-gray-800/75 text-white hover:bg-white/75 hover:text-black'
         } flex h-10 w-full items-center justify-center rounded-md border text-sm transition-all focus:outline-none`}
       >
         {saving ? (
